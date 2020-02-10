@@ -1,3 +1,6 @@
 .DS_Store
 .vagrant/
 *.retry
+.idea/
+.vault_password
+hosts.ini

@@ -1,53 +1,36 @@
-# Kubeadm Ansible Playbook
+# CKAD Cluster Setup and Training Resources
 
-Build a Kubernetes cluster using Ansible with kubeadm. The goal is easily install a Kubernetes cluster on machines running:
+This is a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) repo that spins up a Kubernetes cluster using Ansible with kubeadm.
+I used it as preparation for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have easy-to-create environment to deploy to.
 
-  - Ubuntu 16.04
-  - CentOS 7
-  - Debian 9
+It has been tested with [Kubernetes 1.17](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/) with [Calico Networking](https://www.projectcalico.org/) on two Ubuntu 18.04 small machines (2 vCPU, 2 GiB RAM) with one master and one worker node.
+But is should also work for Ubuntu 16.04, CentOS and Debian Distribution (see original project)
 
-System requirements:
+# CKAD Resources
+
+## CKAD Resources
+
+* [Practice Exam for Certified Kubernetes Application Developer (CKAD) Certification](https://matthewpalmer.net/kubernetes-app-developer/articles/ckad-practice-exam.html)
+* [List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam.](https://github.com/twajr/ckad-prep-notes)
+* [CKAD Tips](https://pnguyen.io/posts/ckad-tips/) and [CKAD Exercises](https://github.com/dgkanatsios/CKAD-exercises)
+* [The CKAD browser terminal](https://codeburst.io/the-ckad-browser-terminal-10fab2e8122e) and [simulator](https://killer.sh/)
+* [Candidate Handbook (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/04/CKA-CKAD-Candidate-Handbook-v1.18-March-2019.pdf)
+* [Important tips (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/05/Important-Tips-CKA-CKAD-4.30.19.pdf)
+* [Official Exam Resources](https://www.cncf.io/certification/ckad/) especially [curriculum](https://github.com/cncf/curriculum), [exam tips](https://training.linuxfoundation.org/wp-content/uploads/2020/01/Important-Tips-CKA-CKAD-01.28.2020.pdf) and [faq](https://training.linuxfoundation.org/wp-content/uploads/2020/01/CKA-CKAD-FAQ-01.28.2020.pdf)
+
+# Cluser Setup
+
+## System requirements
 
   - Deployment environment must have Ansible `2.4.0+`
   - Master and nodes must have passwordless SSH access
+  
+## Customization
 
-# Usage
+Add the system information gathered above into a file called `hosts.ini`, you can use `hosts.ini.tmpl` as a template and just adapt hostnames and ssh config
 
-Add the system information gathered above into a file called `hosts.ini`. For example:
-```
-[master]
-192.16.35.12
-
-[node]
-192.16.35.[10:11]
-
-[kube-cluster:children]
-master
-node
-```
-
-If you're working with ubuntu, add the following properties to each host `ansible_python_interpreter='python3'`:
-```
-[master]
-192.16.35.12 ansible_python_interpreter='python3'
-
-[node]
-192.16.35.[10:11] ansible_python_interpreter='python3'
-
-[kube-cluster:children]
-master
-node
-
-```
-
-Before continuing, edit `group_vars/all.yml` to your specified configuration.
-
-For example, I choose to run `flannel` instead of calico, and thus:
-
-```yaml
-# Network implementation('flannel', 'calico')
-network: flannel
-```
+Also adapt `group_vars/all.yml` to your specified configuration.
+For example, pick a different version of Kubenernetes or choose `flannel` instead of `calico`
 
 **Note:** Depending on your setup, you may need to modify `cni_opts` to an available network interface. By default, `kubeadm-ansible` uses `eth1`. Your default interface may be `eth0`.
 
@@ -63,15 +46,33 @@ $ ansible-playbook site.yaml
 ==> master1: 192.16.35.10               : ok=18   changed=14   unreachable=0    failed=0
 ==> master1: 192.16.35.11               : ok=18   changed=14   unreachable=0    failed=0
 ==> master1: 192.16.35.12               : ok=34   changed=29   unreachable=0    failed=0
+
+===============================================================================
+kubernetes/master : Init Kubernetes cluster -------------------------------------------------------------------------------------------------------------------------------- 51.30s
+kubernetes/node : Recreate kube-dns ---------------------------------------------------------------------------------------------------------------------------------------- 21.63s
+commons/pre-install : Install kubernetes packages (Debian/Ubuntu) ---------------------------------------------------------------------------------------------------------- 19.56s
+commons/pre-install : Install kubernetes packages (Debian/Ubuntu) ---------------------------------------------------------------------------------------------------------- 18.10s
+docker : Install docker engine (Debian/Ubuntu) ----------------------------------------------------------------------------------------------------------------------------- 15.32s
+docker : Install apt-transport-https --------------------------------------------------------------------------------------------------------------------------------------- 13.02s
+docker : Add Docker APT repository ------------------------------------------------------------------------------------------------------------------------------------------ 8.62s
+commons/pre-install : Add Kubernetes APT repository ------------------------------------------------------------------------------------------------------------------------- 7.59s
+commons/pre-install : Add Kubernetes APT repository ------------------------------------------------------------------------------------------------------------------------- 7.45s
+kubernetes/node : Join to Kubernetes cluster -------------------------------------------------------------------------------------------------------------------------------- 6.74s
+Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------- 4.60s
+Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------- 4.29s
+commons/pre-install : Disable swappiness and pass bridged IPv4 traffic to iptable's chains ---------------------------------------------------------------------------------- 3.30s
+commons/pre-install : Disable swappiness and pass bridged IPv4 traffic to iptable's chains ---------------------------------------------------------------------------------- 3.27s
+docker : Copy Docker engine service file ------------------------------------------------------------------------------------------------------------------------------------ 3.12s
+docker : Copy Docker environment config file -------------------------------------------------------------------------------------------------------------------------------- 2.64s
+cni : Copy calico YAML files ------------------------------------------------------------------------------------------------------------------------------------------------ 2.50s
+commons/pre-install : Copy kubeadm conf to drop-in directory ---------------------------------------------------------------------------------------------------------------- 2.49s
+Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.46s
+commons/pre-install : Copy kubeadm conf to drop-in directory ---------------------------------------------------------------------------------------------------------------- 2.42s
 ```
 
 The playbook will download `/etc/kubernetes/admin.conf` file to `$HOME/admin.conf`.
 
-If it doesn't work download the `admin.conf` from the master node:
-
-```sh
-$ scp k8s@k8s-master:/etc/kubernetes/admin.conf .
-```
+This may not work properly, but you can download the `admin.conf` from the master node and popuplate it to the nodes as default `~/.kube/config`
 
 Verify cluster is fully running using kubectl:
 
@@ -90,7 +91,7 @@ etcd-master1                            1/1       Running   0          23m
 ...
 ```
 
-# Resetting the environment
+## Resetting the environment
 
 Finally, reset all kubeadm installed state using `reset-site.yaml` playbook:
 
@@ -121,48 +122,4 @@ This will install k8s-healthcheck (https://github.com/emrekenci/k8s-healthcheck)
 
 # Utils
 Collection of scripts/utilities
-
-## Vagrantfile
-This Vagrantfile is taken from https://github.com/ecomm-integration-ballerina/kubernetes-cluster and slightly modified to copy ssh keys inside the cluster (install https://github.com/dotless-de/vagrant-vbguest is highly recommended)
-
-# Tips & Tricks
-## Specify user for Ansible
-If you use vagrant or your remote user is root, add this to `hosts.ini`
-```
-[master]
-192.16.35.12 ansible_user='root'
-
-[node]
-192.16.35.[10:11] ansible_user='root'
-```
-
-## Access Kubernetes Dashboard
-As of release 1.7 Dashboard no longer has full admin privileges granted by default, so you need to create a token to access the resources:
-```sh
-$ kubectl -n kube-system create sa dashboard
-$ kubectl create clusterrolebinding dashboard --clusterrole cluster-admin --serviceaccount=kube-system:dashboard
-$ kubectl -n kube-system get sa dashboard -o yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  creationTimestamp: 2017-11-27T17:06:41Z
-  name: dashboard
-  namespace: kube-system
-  resourceVersion: "69076"
-  selfLink: /api/v1/namespaces/kube-system/serviceaccounts/dashboard
-  uid: 56b880bf-d395-11e7-9528-448a5ba4bd34
-secrets:
-- name: dashboard-token-vg52j
-
-$ kubectl -n kube-system describe secrets dashboard-token-vg52j
-...
-token:      eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtdG9rZW4tdmc1MmoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiNTZiODgwYmYtZDM5NS0xMWU3LTk1MjgtNDQ4YTViYTRiZDM0Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZCJ9.bVRECfNS4NDmWAFWxGbAi1n9SfQ-TMNafPtF70pbp9Kun9RbC3BNR5NjTEuKjwt8nqZ6k3r09UKJ4dpo2lHtr2RTNAfEsoEGtoMlW8X9lg70ccPB0M1KJiz3c7-gpDUaQRIMNwz42db7Q1dN7HLieD6I4lFsHgk9NPUIVKqJ0p6PNTp99pBwvpvnKX72NIiIvgRwC2cnFr3R6WdUEsuVfuWGdF-jXyc6lS7_kOiXp2yh6Ym_YYIr3SsjYK7XUIPHrBqWjF-KXO_AL3J8J_UebtWSGomYvuXXbbAUefbOK4qopqQ6FzRXQs00KrKa8sfqrKMm_x71Kyqq6RbFECsHPA
-
-$ kubectl proxy
-```
-> Copy and paste the `token` from above to dashboard.
-
-Login the dashboard:
-- Dashboard: [https://API_SERVER:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/](https://API_SERVER:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/)
-- Logging: [https://API_SERVER:8001/api/v1/namespaces/kube-system/services/kibana-logging/proxy/](https://API_SERVER:8001/api/v1/namespaces/kube-system/services/kibana-logging/proxy/)
 
