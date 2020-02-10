@@ -1,14 +1,36 @@
 # CKAD Cluster Setup and Training Resources
 
 This is a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) repo that spins up a Kubernetes cluster using Ansible with kubeadm.
-I used it as preparation for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have easy-to-create environment to deploy to.
+I used it as preparation for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to deploy to.
 
 It has been tested with [Kubernetes 1.17](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/) with [Calico Networking](https://www.projectcalico.org/) on two Ubuntu 18.04 small machines (2 vCPU, 2 GiB RAM) with one master and one worker node.
-But is should also work for Ubuntu 16.04, CentOS and Debian Distribution (see original project)
+But is should also work for Ubuntu 16.04, CentOS and Debian Distribution (see original project).
+ 
+ I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure.
 
 # CKAD Resources
 
-## CKAD Resources
+## Snippets
+
+```
+alias kc=kubectl
+alias kn='kubectl config set-context --current --namespace '
+
+kc create deployment q1 --image=nginx --dry-run -o yaml >q1-tmpl.yaml
+kc explain po; kc explain po.spec; kc explain pod.spec.volumes
+```
+```
+$ cat <<EOF >>~/.vimrc ## tune vim
+set tabstop=2
+set expandtab
+EOF
+```
+* Mark lines: Esc+V (then arrow keys)
+* Copy marked lines: y
+* Cut marked lines: d
+* Past lines: p or P
+
+## CKAD Resource collection
 
 * [Practice Exam for Certified Kubernetes Application Developer (CKAD) Certification](https://matthewpalmer.net/kubernetes-app-developer/articles/ckad-practice-exam.html)
 * [List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam.](https://github.com/twajr/ckad-prep-notes)
