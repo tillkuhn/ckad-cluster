@@ -40,7 +40,7 @@ EOF
 * [Important tips (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/05/Important-Tips-CKA-CKAD-4.30.19.pdf)
 * [Official Exam Resources](https://www.cncf.io/certification/ckad/) especially [curriculum](https://github.com/cncf/curriculum), [exam tips](https://training.linuxfoundation.org/wp-content/uploads/2020/01/Important-Tips-CKA-CKAD-01.28.2020.pdf) and [faq](https://training.linuxfoundation.org/wp-content/uploads/2020/01/CKA-CKAD-FAQ-01.28.2020.pdf)
 
-# Cluser Setup
+# Cluster Setup
 
 ## System requirements
 
