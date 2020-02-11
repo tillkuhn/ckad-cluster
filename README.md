@@ -125,6 +125,3 @@ additional_features:
 ## Healthcheck
 This will install k8s-healthcheck (https://github.com/emrekenci/k8s-healthcheck), a small application to report cluster status.
 
-## Utils
-Collection of scripts/utilities
-
