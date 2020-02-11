@@ -20,9 +20,15 @@
 
 - name: "Copy config file"
   fetch:
-    src: /etc/kubernetes/admin.conf 
+    src: "{{ kubeadmin_config }}"
     dest: "{{ lookup('env', 'HOME') }}/admin.conf"
     flat: yes
   run_once: yes
   ignore_errors: yes
 
+- name: Download admin.conf to {{playbook_dir}}/.secret/{{ kubeadmin_config | basename}}  to populate it to nodes
+  #when: init_cluster is succeeded
+  fetch:
+    src: "{{ kubeadmin_config }}"
+    dest: "{{playbook_dir}}/.secret/{{ kubeadmin_config | basename}}"
+    flat: true

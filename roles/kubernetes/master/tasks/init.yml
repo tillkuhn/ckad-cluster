@@ -31,6 +31,8 @@
     mode: 0755
     remote_src: true
 
+
+
 - name: Deploy kubernetes dashboard into cluster
   when: init_cluster is succeeded and enable_dashboard
   command: |

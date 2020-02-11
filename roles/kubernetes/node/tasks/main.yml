@@ -15,3 +15,17 @@
     daemon_reload: yes
     state: started
     enabled: yes
+
+- name: Create Kubernetes config directory
+  file:
+    path: ".kube/"
+    state: directory
+
+- name: Populate kubeconfig from master to node
+  copy:
+    src: "{{playbook_dir}}/.secret/{{ kubeadmin_config | basename}}"
+    dest: ".kube/config"
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
+    mode: 0755
+    remote_src: false

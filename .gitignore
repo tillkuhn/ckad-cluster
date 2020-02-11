@@ -5,3 +5,6 @@
 .vault_password
 hosts.ini
 id_rsa*
+# exclude everything
+.secret/*
+!.secret/.gitkeep

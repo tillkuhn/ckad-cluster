@@ -47,8 +47,9 @@ EOF
 * Deployment environment must have Ansible `2.4.0+`
 * Master and nodes must have passwordless SSH access. For ssh login you can easily create a keypair and add the public key to remote `~/.ssh/authorized_keys`.
  ```
-    ssh-keygen -t rsa -b 4096 -f ./id_rsa  -N ""
-    ssh-copy-id -i ./id_rsa.pub username@host
+    # both private and public key are placed in .secret and git-ignored 
+    ssh-keygen -t rsa -b 4096 -f .secret/id_rsa  -N ""
+    ssh-copy-id -i .secret/id_rsa.pub username@host # repeat or each host
 ```
 * Since ansible needs to execute some commands with elevated privileges, you may also have to use Ansible's `--ask-become-pass` option or store it in `hosts.ini` (not recommended) 
   
@@ -65,6 +66,7 @@ To update docker version, check [available versions](https://download.docker.com
 After going through the setup, run the `site.yaml` playbook:
 
 ```sh
+$ ansible-playbook site.yaml --check ## to verify
 $ ansible-playbook site.yaml
 ...
 ==> master1: TASK [addon : Create Kubernetes dashboard deployment] **************************
@@ -134,20 +136,12 @@ Enable/disable these features in `group_vars/all.yml` (all disabled by default):
 ```
 # Additional feature to install
 additional_features:
-  helm: false
-  metallb: false
   healthcheck: false
 ```
-
-## Helm
-This will install helm in your cluster (https://helm.sh/) so you can deploy charts.
-
-## MetalLB
-This will install MetalLB (https://metallb.universe.tf/), very useful if you deploy the cluster locally and you need a load balancer to access the services.
 
 ## Healthcheck
 This will install k8s-healthcheck (https://github.com/emrekenci/k8s-healthcheck), a small application to report cluster status.
 
-# Utils
+## Utils
 Collection of scripts/utilities
 

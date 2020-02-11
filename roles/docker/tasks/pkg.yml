@@ -35,7 +35,7 @@
     name: "docker-engine-{{ docker_version }}.*"
     state: present
 
-- name: Install docker engine (Debian/Ubuntu)
+- name: Install docker engine (Debian/Ubuntu) v={{ docker_version }}
   when: ansible_os_family == "Debian"
   apt:
     update_cache: yes
