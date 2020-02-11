@@ -5,6 +5,9 @@
 kube_version: v1.17.0
 token: b0f7b8.8d1767876297d85c
 
+# Docker
+docker_version: 19.03
+
 # 1.8.x feature: --feature-gates SelfHosting=true
 init_opts: ""
 
@@ -37,8 +40,6 @@ kube_addon_dir: /etc/kubernetes/addon
 
 # Additional feature to install
 additional_features:
-  helm: false
-  metallb: false
   healthcheck: false
 
 # temporary directory used by additional features

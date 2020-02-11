@@ -1,7 +1,9 @@
 [master]
+# list of IPs for master node(s)
 yourname1.yourserver.com
 
 [node]
+# list of IPs for worker node(s)
 yourname2.yourserver.com
 
 [kube-cluster:children]
@@ -9,6 +11,12 @@ master
 node
 
 [all:vars]
+# options see https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
 ansible_python_interpreter='python3'
 ansible_user=your_user
-ansible_sudo_pass=yourpassword
+# better do not store, use --ask-become-pass (or -K) ansible args
+ansible_sudo_pass=yourpassword4sudo
+# you generated your own key in project root
+ansible_ssh_private_key_file=id_rsa
+# disbable if not needed (for cloud instances with frequently changing IPs)
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
