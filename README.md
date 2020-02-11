@@ -66,18 +66,8 @@ To update docker version, check [available versions](https://download.docker.com
 After going through the setup, run the `site.yaml` playbook:
 
 ```sh
-$ ansible-playbook site.yaml --check ## to verify
 $ ansible-playbook site.yaml
 ...
-==> master1: TASK [addon : Create Kubernetes dashboard deployment] **************************
-==> master1: changed: [192.16.35.12 -> 192.16.35.12]
-==> master1:
-==> master1: PLAY RECAP *********************************************************************
-==> master1: 192.16.35.10               : ok=18   changed=14   unreachable=0    failed=0
-==> master1: 192.16.35.11               : ok=18   changed=14   unreachable=0    failed=0
-==> master1: 192.16.35.12               : ok=34   changed=29   unreachable=0    failed=0
-
-===============================================================================
 kubernetes/master : Init Kubernetes cluster -------------------------------------------------------------------------------------------------------------------------------- 51.30s
 kubernetes/node : Recreate kube-dns ---------------------------------------------------------------------------------------------------------------------------------------- 21.63s
 commons/pre-install : Install kubernetes packages (Debian/Ubuntu) ---------------------------------------------------------------------------------------------------------- 19.56s
@@ -100,22 +90,18 @@ Gathering Facts ----------------------------------------------------------------
 commons/pre-install : Copy kubeadm conf to drop-in directory ---------------------------------------------------------------------------------------------------------------- 2.42s
 ```
 
-The playbook will download `/etc/kubernetes/admin.conf` file to `$HOME/admin.conf`.
-
-This may not work properly, but you can download the `admin.conf` from the master node and popuplate it to the nodes as default `~/.kube/config`
+The playbook will download `/etc/kubernetes/admin.conf` file to `.secret/admin.conf` from master and populate it to 
+`~/.kube/conf` on each node (which is the default location so you don't need to specify `KUBECONFIG`) environment variable
 
 Verify cluster is fully running using kubectl:
 
 ```sh
-
-$ export KUBECONFIG=~/admin.conf
 $ kubectl get node
-NAME      STATUS    AGE       VERSION
-master1   Ready     22m       v1.6.3
-node1     Ready     20m       v1.6.3
-node2     Ready     20m       v1.6.3
+NAME                         STATUS   ROLES    AGE   VERSION
+till1.server.com             Ready    master   23m   v1.17.2
+till2.server.com             Ready    <none>   17m   v1.17.2
 
-$ kubectl get po -n kube-system
+$ kubectl get po --all-namespaces
 NAME                                    READY     STATUS    RESTARTS   AGE
 etcd-master1                            1/1       Running   0          23m
 ...
