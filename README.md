@@ -18,17 +18,14 @@ alias kn='kubectl config set-context --current --namespace '
 
 kc create deployment q1 --image=nginx --dry-run -o yaml >q1-tmpl.yaml
 kc explain po; kc explain po.spec; kc explain pod.spec.volumes
+kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
 ```
 ```
 $ cat <<EOF >>~/.vimrc ## tune vim
-set tabstop=2
-set expandtab
+autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 EOF
 ```
-* Mark lines: Esc+V (then arrow keys)
-* Copy marked lines: y
-* Cut marked lines: d
-* Past lines: p or P
+vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
 
 ## CKAD Resource collection
 
