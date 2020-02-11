@@ -4,3 +4,4 @@
 .idea/
 .vault_password
 hosts.ini
+id_rsa*

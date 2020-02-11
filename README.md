@@ -44,8 +44,13 @@ EOF
 
 ## System requirements
 
-  - Deployment environment must have Ansible `2.4.0+`
-  - Master and nodes must have passwordless SSH access
+* Deployment environment must have Ansible `2.4.0+`
+* Master and nodes must have passwordless SSH access. For ssh login you can easily create a keypair and add the public key to remote `~/.ssh/authorized_keys`.
+ ```
+    ssh-keygen -t rsa -b 4096 -f ./id_rsa  -N ""
+    ssh-copy-id -i ./id_rsa.pub username@host
+```
+* Since ansible needs to execute some commands with elevated privileges, you may also have to use Ansible's `--ask-become-pass` option or store it in `hosts.ini` (not recommended) 
   
 ## Customization
 
@@ -53,6 +58,7 @@ Add the system information gathered above into a file called `hosts.ini`, you ca
 
 Also adapt `group_vars/all.yml` to your specified configuration.
 For example, pick a different version of Kubenernetes or choose `flannel` instead of `calico`
+To update docker version, check [available versions](https://download.docker.com/linux/static/stable) and update [roles/docker/defaults/main.yml](roles/docker/defaults/main.yml) accordingly.
 
 **Note:** Depending on your setup, you may need to modify `cni_opts` to an available network interface. By default, `kubeadm-ansible` uses `eth1`. Your default interface may be `eth0`.
 
