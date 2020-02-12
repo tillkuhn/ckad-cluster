@@ -44,7 +44,7 @@ vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Pas
 
 ## System requirements
 
-* Deployment environment must have Ansible `2.4.0+`
+* Deployment environment must have Ansible `2.4.0+` (`pip install --user ansible`)
 * Master and nodes must have passwordless SSH access. For ssh login you can easily create a keypair and add the public key to remote `~/.ssh/authorized_keys`.
  ```
     # both private and public key are placed in .secret and git-ignored 
