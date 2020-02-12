@@ -1,12 +1,15 @@
 # CKAD Cluster Setup and Training Resources
 
-This is a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) repo that spins up a Kubernetes cluster using Ansible with kubeadm.
-I used it as preparation for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to deploy to.
+This is a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) repo that spins up a Kubernetes cluster using Ansible with kubeadm. I used it as preparation for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to play around with.
 
-It has been tested with [Kubernetes 1.17](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/) with [Calico Networking](https://www.projectcalico.org/) on two Ubuntu 18.04 small machines (2 vCPU, 2 GiB RAM) with one master and one worker node.
-But is should also work for Ubuntu 16.04, CentOS and Debian Distribution (see original project).
- 
- I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure.
+The cluster setup playbook has been tested successfully with the following configuration:
+
+* [Kubernetes 1.17](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/) 
+* [Docker (docker-ce) 18.06](https://docs.docker.com/engine/release-notes/)
+* [Calico Networking](https://www.projectcalico.org/) intead of flannel 
+* Two [Ubuntu 18.04 LTS](https://ubuntu.com/download/server) small sized machines (2 vCPU, 2 GiB RAM), one acting as master and one as worker node
+
+ I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure. Remember you need to perform some intial ssh setup before running the playbook, see *System requirements* below
 
 # CKAD Resources
 
