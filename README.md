@@ -4,14 +4,14 @@ This is a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansibl
 
 The cluster setup playbook has been tested successfully with the following configuration:
 
-* [Kubernetes 1.17](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/) 
+* [Kubernetes 1.19](https://kubernetes.io/docs/setup/release/notes/#v1-19-0) 
 * [Docker (docker-ce) 18.06](https://docs.docker.com/engine/release-notes/)
 * [Calico Networking](https://www.projectcalico.org/) intead of flannel 
 * Two [Ubuntu 18.04 LTS](https://ubuntu.com/download/server) small sized machines (2 vCPU, 2 GiB RAM), one acting as master and one as worker node
 
  I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure. Remember you need to perform some intial ssh setup before running the playbook, see *System requirements* below
 
-# CKAD Resources
+# Useful CKAD Resources
 
 ## Snippets
 
@@ -30,7 +30,7 @@ EOF
 ```
 vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
 
-## CKAD Resource collection
+## External Link Collection
 
 * [Practice Exam for Certified Kubernetes Application Developer (CKAD) Certification](https://matthewpalmer.net/kubernetes-app-developer/articles/ckad-practice-exam.html)
 * [List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam.](https://github.com/twajr/ckad-prep-notes)
@@ -40,7 +40,7 @@ vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Pas
 * [Important tips (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/05/Important-Tips-CKA-CKAD-4.30.19.pdf)
 * [Official Exam Resources](https://www.cncf.io/certification/ckad/) especially [curriculum](https://github.com/cncf/curriculum), [exam tips](https://training.linuxfoundation.org/wp-content/uploads/2020/01/Important-Tips-CKA-CKAD-01.28.2020.pdf) and [faq](https://training.linuxfoundation.org/wp-content/uploads/2020/01/CKA-CKAD-FAQ-01.28.2020.pdf)
 
-# Cluster Setup
+# Kubernetes Cluster Setup
 
 ## System requirements
 
@@ -49,8 +49,17 @@ vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Pas
  ```
     # both private and public key are placed in .secret and git-ignored 
     ssh-keygen -t rsa -b 4096 -f .secret/id_rsa  -N ""
-    ssh-copy-id -i .secret/id_rsa.pub username@host # repeat or each host
+    ssh-copy-id -i .secret/id_rsa.pub cloud_user@till1.server.com # repeat or each host
 ```
+* For easy access you can setup an custom Host entry in your `~/.ssh/config` file
+```
+Host *.server.com 
+  User cloud_user
+  IdentityFile ~/path/to/ckad-cluster/.secret/id_rsa
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+```
+  
 * Since ansible needs to execute some commands with elevated privileges, you may also have to use Ansible's `--ask-become-pass` option or store it in `hosts.ini` (not recommended) 
   
 ## Customization
@@ -100,11 +109,23 @@ $ kubectl get node
 NAME                         STATUS   ROLES    AGE   VERSION
 till1.server.com             Ready    master   23m   v1.17.2
 till2.server.com             Ready    <none>   17m   v1.17.2
-
+```
+```
 $ kubectl get po --all-namespaces
 NAME                                    READY     STATUS    RESTARTS   AGE
 etcd-master1                            1/1       Running   0          23m
 ...
+```
+```
+$ kubectl cluster-info
+Kubernetes master is running at https://172.xx.xx.xx:6443
+KubeDNS is running at https://172.xx.xx.xx:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+```
+```
+$ kubectl run nginx --image=nginx
+$ kubectl get pods
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          13s
 ```
 
 ## Resetting the environment
