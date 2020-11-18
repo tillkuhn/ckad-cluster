@@ -19,8 +19,15 @@ The cluster setup playbook has been tested successfully with the following confi
 alias kc=kubectl
 alias kn='kubectl config set-context --current --namespace '
 
+# auto complete
+source <(kubectl completion bash
+complete -F __start_kubectl k
+
 kc create deployment q1 --image=nginx --dry-run -o yaml >q1-tmpl.yaml
+
 kc explain po; kc explain po.spec; kc explain pod.spec.volumes
+
+# export is apparently gone with 1.19 :-(
 kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
 ```
 
@@ -43,6 +50,7 @@ vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Pas
 * [Candidate Handbook (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/04/CKA-CKAD-Candidate-Handbook-v1.18-March-2019.pdf)
 * [Important tips (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/05/Important-Tips-CKA-CKAD-4.30.19.pdf)
 * [Official Exam Resources](https://www.cncf.io/certification/ckad/) especially [curriculum](https://github.com/cncf/curriculum), [exam tips](https://training.linuxfoundation.org/wp-content/uploads/2020/01/Important-Tips-CKA-CKAD-01.28.2020.pdf) and [faq](https://training.linuxfoundation.org/wp-content/uploads/2020/01/CKA-CKAD-FAQ-01.28.2020.pdf)
+* [official kubectl cheatsheet](https://kubernetes.io/de/docs/reference/kubectl/cheatsheet/)
 
 # Kubernetes Cluster Setup
 
