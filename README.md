@@ -18,12 +18,14 @@ The cluster setup playbook has been tested successfully with the following confi
 ```
 alias kc=kubectl
 alias kn='kubectl config set-context --current --namespace '
+alias pods="kubectl get pods"
 
 # auto complete
 source <(kubectl completion bash
 complete -F __start_kubectl k
 
-kc create deployment q1 --image=nginx --dry-run -o yaml >q1-tmpl.yaml
+# create skeleton yaml for deployment
+kc create deployment q1 --image=nginx --dry-run=client -o yaml >q1-tmpl.yaml
 
 kc explain po; kc explain po.spec; kc explain pod.spec.volumes
 
