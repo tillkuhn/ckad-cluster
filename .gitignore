@@ -8,3 +8,4 @@ id_rsa*
 # exclude everything
 .secret/*
 !.secret/.gitkeep
+LOCAL.md

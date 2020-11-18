@@ -23,6 +23,10 @@ kc create deployment q1 --image=nginx --dry-run -o yaml >q1-tmpl.yaml
 kc explain po; kc explain po.spec; kc explain pod.spec.volumes
 kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
 ```
+
+[tip](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim)
+For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
+Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
 ```
 $ cat <<EOF >>~/.vimrc ## tune vim
 autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
