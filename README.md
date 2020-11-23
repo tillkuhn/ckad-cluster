@@ -37,7 +37,7 @@ kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
 For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
 Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
 ```
-$ cat <<EOF >>~/.vimrc ## tune vim
+$ cat <<EOF >>~/.vimrc ## tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
 autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 EOF
 ```
