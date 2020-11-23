@@ -21,7 +21,7 @@ alias kn='kubectl config set-context --current --namespace '
 alias pods="kubectl get pods"
 
 # auto complete
-source <(kubectl completion bash
+source <(kubectl completion bash)
 complete -F __start_kubectl k
 
 # create skeleton yaml for deployment
