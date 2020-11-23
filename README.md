@@ -22,7 +22,7 @@ alias pods="kubectl get pods"
 
 # auto complete
 source <(kubectl completion bash)
-complete -F __start_kubectl k
+complete -F __start_kubectl kc
 
 # create skeleton yaml for deployment
 kc create deployment q1 --image=nginx --dry-run=client -o yaml >q1-tmpl.yaml
