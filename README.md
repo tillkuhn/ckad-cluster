@@ -13,37 +13,47 @@ The cluster setup playbook has been tested successfully with the following confi
 
 # Useful CKAD Resources
 
-## Snippets
+## Snippets to speed up kubectl interaction
 
 ```
+# useful aliases
 alias kc=kubectl
 alias kn='kubectl config set-context --current --namespace '
 alias pods="kubectl get pods"
 
 # auto complete
 source <(kubectl completion bash)
-complete -F __start_kubectl kc
+complete -F __start_kubectl kc # enable also for kc alias
 
-# create skeleton yaml for deployment
-kc create deployment q1 --image=nginx --dry-run=client -o yaml >q1-tmpl.yaml
-
-kc explain po; kc explain po.spec; kc explain pod.spec.volumes
-
-# export is apparently gone with 1.19 :-(
-kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
+# tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
+cat <<EOF >>~/.vimrc 
+autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
+EOF
 ```
+
+## Vim yaml config explained
 
 [tip](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim)
 For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
 Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
-```
-$ cat <<EOF >>~/.vimrc ## tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
-autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
-EOF
-```
 vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
+ 
+## Snippets for daily work
 
-## External Link Collection
+```
+kc explain po; kc explain po.spec; kc explain pod.spec.volumes
+
+# export is apparently gone with 1.19 :-(
+kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
+
+
+# create skeleton yaml for deployment
+kc create deployment q1 --image=nginx --dry-run=client -o yaml >q1-tmpl.yaml
+
+# (...)
+```
+
+## Exam Prep External Link Collection
 
 * [Practice Exam for Certified Kubernetes Application Developer (CKAD) Certification](https://matthewpalmer.net/kubernetes-app-developer/articles/ckad-practice-exam.html)
 * [List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam.](https://github.com/twajr/ckad-prep-notes)
@@ -54,7 +64,7 @@ vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Pas
 * [Official Exam Resources](https://www.cncf.io/certification/ckad/) especially [curriculum](https://github.com/cncf/curriculum), [exam tips](https://training.linuxfoundation.org/wp-content/uploads/2020/01/Important-Tips-CKA-CKAD-01.28.2020.pdf) and [faq](https://training.linuxfoundation.org/wp-content/uploads/2020/01/CKA-CKAD-FAQ-01.28.2020.pdf)
 * [official kubectl cheatsheet](https://kubernetes.io/de/docs/reference/kubectl/cheatsheet/)
 
-# Kubernetes Cluster Setup
+# Automated Kubernetes Cluster Setup
 
 ## System requirements
 
