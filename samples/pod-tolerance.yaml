@@ -1,0 +1,13 @@
+piVersion: v1
+kind: Pod
+metadata:
+  name: bee
+spec:
+  containers:
+  - image: nginx
+    name: bee
+  tolerations:
+  - key: os
+    value: flatcar
+    effect: NoSchedule
+    operator: Equal

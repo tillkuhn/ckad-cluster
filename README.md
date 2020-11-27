@@ -19,14 +19,35 @@ The cluster setup playbook has been tested successfully with the following confi
 alias kc=kubectl
 alias kn='kubectl config set-context --current --namespace '
 
-kc create deployment q1 --image=nginx --dry-run -o yaml >q1-tmpl.yaml
-kc explain po; kc explain po.spec; kc explain pod.spec.volumes
+# run pod
+kubectl run nginx --image=nginx [--port=8080] [--expose]
+
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml >mydeploy.yaml
+kc apply -f mydeploy.yaml
+kc scale --replicas=3 deploy/nginx # create deploy has no replicas switch, initial value is 0
+
+# Create a Service of type ClusterIP to expose existing pod on port 6379
+
+kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o yaml
+# or
+kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml
+
+# similar for nodeport
+kubectl create service nodeport nginx --tcp=80:80 --node-port=33333 --dry-run=client -o yaml
+
+# use explain to explain resources / subresources
+kc explain po; kc explain po.spec; kc explain pod.spec.volumes --recursive
+kc explain ingress.apiVersion
+KIND:     Ingress
+VERSION:  extensions/v1beta1 (...)
+
 kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
+
 ```
 
 [tip](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim)
 For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
-Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
+Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon. use `:se all` command to see all options when inside vim
 ```
 $ cat <<EOF >>~/.vimrc ## tune vim
 autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
