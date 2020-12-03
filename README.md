@@ -13,49 +13,48 @@ The cluster setup playbook has been tested successfully with the following confi
 
 # Useful CKAD Resources
 
-## Snippets
+## Snippets to speed up kubectl interaction
 
 ```
+# useful aliases
 alias kc=kubectl
 alias kn='kubectl config set-context --current --namespace '
+alias pods="kubectl get pods"
+alias ke="kubectl explain --recursive"
 
-# run pod
-kubectl run nginx --image=nginx [--port=8080] [--expose]
+# auto complete
+source <(kubectl completion bash)
+complete -F __start_kubectl kc # enable also for kc alias
 
-kubectl create deployment --image=nginx nginx --dry-run=client -o yaml >mydeploy.yaml
-kc apply -f mydeploy.yaml
-kc scale --replicas=3 deploy/nginx # create deploy has no replicas switch, initial value is 0
-
-# Create a Service of type ClusterIP to expose existing pod on port 6379
-
-kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o yaml
-# or
-kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml
-
-# similar for nodeport
-kubectl create service nodeport nginx --tcp=80:80 --node-port=33333 --dry-run=client -o yaml
-
-# use explain to explain resources / subresources
-kc explain po; kc explain po.spec; kc explain pod.spec.volumes --recursive
-kc explain ingress.apiVersion
-KIND:     Ingress
-VERSION:  extensions/v1beta1 (...)
-
-kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
-
-```
-
-[tip](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim)
-For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
-Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon. use `:se all` command to see all options when inside vim
-```
-$ cat <<EOF >>~/.vimrc ## tune vim
+# tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
+cat <<EOF >>~/.vimrc 
 autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 EOF
 ```
-vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
 
-## External Link Collection
+## Vim yaml config explained
+
+[tip](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim)
+For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
+Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
+vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
+ 
+## Snippets for daily work
+
+```
+kc explain po; kc explain po.spec; kc explain pod.spec.volumes
+
+# export is apparently gone with 1.19 :-(
+kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
+
+
+# create skeleton yaml for deployment
+kc create deployment q1 --image=nginx --dry-run=client -o yaml >q1-tmpl.yaml
+
+# (...)
+```
+
+## Exam Prep External Link Collection
 
 * [Practice Exam for Certified Kubernetes Application Developer (CKAD) Certification](https://matthewpalmer.net/kubernetes-app-developer/articles/ckad-practice-exam.html)
 * [List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam.](https://github.com/twajr/ckad-prep-notes)
@@ -64,8 +63,9 @@ vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Pas
 * [Candidate Handbook (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/04/CKA-CKAD-Candidate-Handbook-v1.18-March-2019.pdf)
 * [Important tips (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/05/Important-Tips-CKA-CKAD-4.30.19.pdf)
 * [Official Exam Resources](https://www.cncf.io/certification/ckad/) especially [curriculum](https://github.com/cncf/curriculum), [exam tips](https://training.linuxfoundation.org/wp-content/uploads/2020/01/Important-Tips-CKA-CKAD-01.28.2020.pdf) and [faq](https://training.linuxfoundation.org/wp-content/uploads/2020/01/CKA-CKAD-FAQ-01.28.2020.pdf)
+* [official kubectl cheatsheet](https://kubernetes.io/de/docs/reference/kubectl/cheatsheet/)
 
-# Kubernetes Cluster Setup
+# Automated Kubernetes Cluster Setup
 
 ## System requirements
 
@@ -173,4 +173,3 @@ additional_features:
 
 ## Healthcheck
 This will install k8s-healthcheck (https://github.com/emrekenci/k8s-healthcheck), a small application to report cluster status.
-
