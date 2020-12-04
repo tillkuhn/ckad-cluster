@@ -22,6 +22,9 @@ alias kn='kubectl config set-context --current --namespace '
 alias pods="kubectl get pods"
 alias ke="kubectl explain --recursive"
 
+export $dry="--dry-run=client -o yaml" # for kubectl run quick yaml export
+export $force="--force --grace-period=0" # to speed up kubectl delete xy
+
 # auto complete
 source <(kubectl completion bash)
 complete -F __start_kubectl kc # enable also for kc alias
