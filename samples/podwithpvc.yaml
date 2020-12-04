@@ -1,0 +1,16 @@
+# https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: frontend
+      image: nginx
+      volumeMounts:
+      - mountPath: "/var/www/html"
+        name: volli
+  volumes:
+    - name: volli
+      persistentVolumeClaim:
+        claimName: myclaim

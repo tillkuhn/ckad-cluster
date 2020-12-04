@@ -27,6 +27,10 @@ source <(kubectl completion bash)
 complete -F __start_kubectl kc # enable also for kc alias
 
 # tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
+echo "set ts=2 sts=2 sw=2 et" > ~./.vimrc && . ~/.vimrc
+# extended version below
+```
+```
 cat <<EOF >>~/.vimrc 
 autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 EOF
