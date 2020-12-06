@@ -1,4 +1,4 @@
-Commands shared in the PPT
+# Commands shared in the PPT
 kubectl run nginx --image=nginx   (deployment)
 kubectl run nginx --image=nginx --restart=Never   (pod)
 kubectl run nginx --image=nginx --restart=OnFailure   (job)  
@@ -10,12 +10,12 @@ kubectl run frontend --replicas=2 --labels=run=load-balancer-example --image=bus
 kubectl expose deployment frontend --type=NodePort --name=frontend-service --port=6262 --target-port=8080
 kubectl set serviceaccount deployment frontend myuser
 
-# other
+# change namespace of current context 
 kubectl config set-context --current --namespace=marketing
 # or vi ~/.kube/config
 
 # Create a service for an redis deployment, which serves on port 80 and connects to the containers on port 8000. default is ClusterIP
-  kubectl expose deployment redis --port=80 --target-port=8000 --name redis-svc
+kubectl expose deployment redis --port=80 --target-port=8000 --name redis-svc
 
 # quick create configmap or secret with 2 key/value pairs
 kubectl create cm klaus2 --from-literal=k1=dddd --from-literal=k2=wolf
