@@ -45,8 +45,23 @@ EOF
 For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
 Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
 vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
- 
+  
 ## Snippets for daily work
+
+Sleepy busybox for debugging
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-sleep
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    args:
+    - sleep
+    - "1000000"
+```    
 
 ```
 kc explain po; kc explain po.spec; kc explain pod.spec.volumes
