@@ -20,3 +20,7 @@ kubectl expose deployment redis --port=80 --target-port=8000 --name redis-svc
 # quick create configmap or secret with 2 key/value pairs
 kubectl create cm klaus2 --from-literal=k1=dddd --from-literal=k2=wolf
 kubectl create secret generic supergeheim --from-literal=DB_Host=sss --from-literal=DB_P=ruti 
+
+# Create cronjob
+kubectl create cronjob nginx --image=nginx --schedule="* * * * *"  
+
