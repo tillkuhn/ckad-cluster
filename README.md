@@ -21,6 +21,7 @@ alias kc=kubectl
 alias kn='kubectl config set-context --current --namespace '
 alias pods="kubectl get pods"
 alias ke="kubectl explain --recursive"
+alias apply="kubectl apply -f"
 
 export dry="--dry-run=client -o yaml" # for kubectl run quick yaml export
 export force="--force --grace-period=0" # to speed up kubectl delete xy
