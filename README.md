@@ -2,10 +2,12 @@
 
 ![](https://upload.wikimedia.org/wikipedia/commons/6/67/Kubernetes_logo.svg)
 
-## About
-This is a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) repo that spins up a Kubernetes cluster using Ansible with kubeadm. I used it as preparation for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to play around with.
+## About this repo
+This repo started as a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) and spins up a Kubernetes cluster using Ansible with `kubeadm`. 
 
-The cluster setup playbook has been tested successfully with the following configuration:
+My primary goal was to use the resulting cluster to prepare for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to play around with.
+
+The setup playbook has been tested successfully with the following configuration:
 
 * [Kubernetes 1.19](https://kubernetes.io/docs/setup/release/notes/#v1-19-0) 
 * [Docker (docker-ce) 18.06](https://docs.docker.com/engine/release-notes/)
@@ -14,24 +16,24 @@ The cluster setup playbook has been tested successfully with the following confi
 
  I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure. Remember you need to perform some intial ssh setup before running the playbook, see *System requirements* below
 
-#+ Useful CKAD Resources for prepartion
+## Useful resources to prepare for the CKAD exam
 
 ### Curated Links (in no particular oder)
-* [Udemy (CKAD) Schenker Course](https://www.udemy.com/course/certified-kubernetes-application-developer/)
-* [LinuxAcademy (CKAD) Course](https://linuxacademy.com/cp/modules/view/id/305)
-* [CKAD | About the program Overview](https://www.cncf.io/certification/ckad/)
-* [FAQ: CKA and CKAD &amp; CKS (Official)](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks)
+* [Udemy CKAD Course](https://www.udemy.com/course/certified-kubernetes-application-developer/)
+* [LinuxAcademy CKAD Course](https://linuxacademy.com/cp/modules/view/id/305)
+* [Cloud Native Foundation CKAD | About the program Overview](https://www.cncf.io/certification/ckad/)
+* [Linux Foundation FAQ: CKA and CKAD &amp; CKS (Official)](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks)
 * [Linux Foundation CKAD T&amp;C DOC (official legal stuff)](https://docs.linuxfoundation.org/tc-docs/certification/lf-cert-agreement)
 * [CKA and CKAD - T&amp;C DOC (firewall, sudo etc.)](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad#exam-technical-instructions)
-* [PSI Browser / OS Compatibility Check](https://www.examslocal.com/ScheduleExam/Home/CompatibilityCheck)
-* [CKAD exp. Cédric Moular GOOD, vim etc. ](https://dev.to/cedricmoulard/ckad-experience-3k4o)
-* [twajr/ckad-prep-notes: Huge repo with List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam](https://github.com/twajr/ckad-prep-notes)
-* [CKAD Exercises : dgkanatsios  GOOO REPO](https://github.com/dgkanatsios/CKAD-exercises)
+* [Exam Browser / OS Compatibility Check](https://www.examslocal.com/ScheduleExam/Home/CompatibilityCheck)
+* [CKAD exp. Cédric Moular (Good), vim tips etc. ](https://dev.to/cedricmoulard/ckad-experience-3k4o)
+* [twajr/ckad-prep-notes: Huge repo with List of resources and notes for passing the exam](https://github.com/twajr/ckad-prep-notes)
+* [CKAD Exercises : dgkanatsios (Good) repo](https://github.com/dgkanatsios/CKAD-exercises)
+* [lucassha/CKAD-resources Github Repo: Study materials for k8s CKAD](https://github.com/lucassha/CKAD-resources)
 * [The CKAD browser terminal. This is a general overview of what… | by Kim Wuestkamp | codeburst](https://codeburst.io/the-ckad-browser-terminal-10fab2e8122e)
-* [Tip 1: My CKAD exam experience | LinkedIn](https://www.linkedin.com/pulse/my-ckad-exam-experience-atharva-chauthaiwale/)
-* [Tip 3: lucassha/CKAD-resources Github Repo: Study materials for k8s CKAD](https://github.com/lucassha/CKAD-resources)
-* [Video: How to CRUSH the CKAD Exam (10min)](https://www.youtube.com/watch?v=5cgpFWVD8ds)
-* [Video: Muralidaran Tips on preparing for CKAD - YouTube 25min](https://www.youtube.com/watch?v=rnemKrveZks&feature=youtu.be)
+* [Some CKAD exam experience | LinkedIn](https://www.linkedin.com/pulse/my-ckad-exam-experience-atharva-chauthaiwale/)
+* [Video: How to CRUSH the CKAD Exam (10min, easy to watch)](https://www.youtube.com/watch?v=5cgpFWVD8ds)
+* [Video: Muralidaran Tips on preparing for CKAD - YouTube 25min, some good hints](https://www.youtube.com/watch?v=rnemKrveZks&feature=youtu.be)
 
 ### Snippets to speed your cluster interaction (très impoortante)
 
@@ -50,18 +52,55 @@ source <(kubectl completion bash)
 complete -F __start_kubectl kc # enable also for kc alias
 
 # tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
-echo "set ts=2 sts=2 sw=2 et" > ~/.vimrc && . ~/.vimrc
-
+echo "set ts=2 sts=2 sw=2 et" > ~/.vimrc 
 ```
+
+### Curated kubernetes.io deeplinks
+
+Since you are allowed to use the offical kubernetes.io documentation it can pay off to bookmark
+a couple of useful locations for code cut'n'paste, as not to waste time to search for them during the exam under time pressure.
+
+* [kubectl Cheat Sheet - Kubernetes](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+* [Pod: Shell to a Running Container with empyDir volmount](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/)
+* [Pod: ConfigMaps Mount from a Pod | Kubernetes](https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-files-from-a-pod)
+* [ Pod: Use configMapKeyRef in busybox](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#define-container-environment-variables-using-configmap-data)
+* [Pod: Mount Secrets via Volumes | Kubernetes](https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#create-a-pod-that-has-access-to-the-secret-data-through-a-volume)
+* [Pod: Security Context, Pod or Container | Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+* [Pod: Volumes empyDirExample](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir-configuration-example)
+* [Pod: Liveness, Readiness and Startup Probes | Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
+* [Pod: Request and Limits Mem CPU](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory)
+* [Nodes+pods: Taints and Tolerations | Kubernetes](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/#concepts)
+* [Nodes+Pods: Assign Pods to Nodes using Node Affinity ](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/#schedule-a-pod-using-required-node-affinity)
+* [Nodes+Pods: Assign Pods2 Nodesnodelector | Kubernetes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#step-two-add-a-nodeselector-field-to-your-pod-configuration)
+* [Nodes+Pods: use nodeName to assign](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename)
+* [Cronjob: Creation with yaml, busybox example](https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#creating-a-cron-job)
+* [Deployment: Sample with 4 replicas](https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/#scaling-the-application-by-increasing-the-replica-count)
+* [Deployment: Expose as Service](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
+* [Deployments: Rollback history + rollout set image](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#checking-rollout-history-of-a-deployment)
+* [Deployment: Updating Resources Cheatsheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#updating-resources)
+* [Deployments: Stateful Set + Init Container](https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/#statefulset)
+* [Jobs: completions, backoffLimit](https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup)
+* [Services: Expose curlpod as nodeport](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#exposing-the-service)
+* [Service: Multiport Service Ex](https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services)
+* [Network Policy | Limit Ingress Access to pod](https://kubernetes.io/docs/tasks/administer-cluster/declare-network-policy/#limit-access-to-the-nginx-service)
+* [Network Policies | the resources (big)](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource)
+* [Ingress | http path rules](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
+* [Persistent Volumes: Create PV + PVC](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes)
+* [PersistentVolume: Configure Podwith hostPath and pvc for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-pod)
+* [Labels and Selectors | Kubernetes](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
 
 ### Vim yaml tuning explained
 
-* [Source](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim): 
-For YAML files (...) instruct Vim to use 2 spaces for indentation, use spaces instead of tabs and
-* mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
-* delete from cursor to end of file: 'dG'
+You need to be fluent with either nano or vim, I choose vim. Since you're be mostly editiing yaml, it makes sense
+to optimize the settings to deal with yaml files, especially when it comes to indentation
 
-## Setup your own Kuberneter Cluster for training
+* `echo "set ts=2 sts=2 sw=2 et" > ~/.vimrc`
+* [Source](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim):
+  For YAML files (...) instruct Vim to use 2 spaces for indentation, use spaces instead of tabs and
+* Mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
+* Delete from cursor to end of file: 'dG'
+
+## Setup your own Cluster for Training using this repo
 
 ### System requirements
 
