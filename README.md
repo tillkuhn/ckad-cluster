@@ -1,5 +1,8 @@
 # CKAD Cluster Setup and Training Resources
 
+![](https://upload.wikimedia.org/wikipedia/commons/6/67/Kubernetes_logo.svg)
+
+## About
 This is a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) repo that spins up a Kubernetes cluster using Ansible with kubeadm. I used it as preparation for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to play around with.
 
 The cluster setup playbook has been tested successfully with the following configuration:
@@ -11,9 +14,26 @@ The cluster setup playbook has been tested successfully with the following confi
 
  I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure. Remember you need to perform some intial ssh setup before running the playbook, see *System requirements* below
 
-# Useful CKAD Resources
+#+ Useful CKAD Resources for prepartion
 
-## Snippets to speed up kubectl interaction
+### Curated Links (in no particular oder)
+* [Udemy (CKAD) Schenker Course](https://www.udemy.com/course/certified-kubernetes-application-developer/)
+* [LinuxAcademy (CKAD) Course](https://linuxacademy.com/cp/modules/view/id/305)
+* [CKAD | About the program Overview](https://www.cncf.io/certification/ckad/)
+* [FAQ: CKA and CKAD &amp; CKS (Official)](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks)
+* [Linux Foundation CKAD T&amp;C DOC (official legal stuff)](https://docs.linuxfoundation.org/tc-docs/certification/lf-cert-agreement)
+* [CKA and CKAD - T&amp;C DOC (firewall, sudo etc.)](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad#exam-technical-instructions)
+* [PSI Browser / OS Compatibility Check](https://www.examslocal.com/ScheduleExam/Home/CompatibilityCheck)
+* [CKAD exp. Cédric Moular GOOD, vim etc. ](https://dev.to/cedricmoulard/ckad-experience-3k4o)
+* [twajr/ckad-prep-notes: Huge repo with List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam](https://github.com/twajr/ckad-prep-notes)
+* [CKAD Exercises : dgkanatsios  GOOO REPO](https://github.com/dgkanatsios/CKAD-exercises)
+* [The CKAD browser terminal. This is a general overview of what… | by Kim Wuestkamp | codeburst](https://codeburst.io/the-ckad-browser-terminal-10fab2e8122e)
+* [Tip 1: My CKAD exam experience | LinkedIn](https://www.linkedin.com/pulse/my-ckad-exam-experience-atharva-chauthaiwale/)
+* [Tip 3: lucassha/CKAD-resources Github Repo: Study materials for k8s CKAD](https://github.com/lucassha/CKAD-resources)
+* [Video: How to CRUSH the CKAD Exam (10min)](https://www.youtube.com/watch?v=5cgpFWVD8ds)
+* [Video: Muralidaran Tips on preparing for CKAD - YouTube 25min](https://www.youtube.com/watch?v=rnemKrveZks&feature=youtu.be)
+
+### Snippets to speed your cluster interaction (très impoortante)
 
 ```
 # useful aliases
@@ -31,67 +51,19 @@ complete -F __start_kubectl kc # enable also for kc alias
 
 # tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
 echo "set ts=2 sts=2 sw=2 et" > ~/.vimrc && . ~/.vimrc
-# extended version below
-```
-```
-cat <<EOF >>~/.vimrc 
-autocmd FileType yml,yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
-EOF
-```
-
-## Vim yaml config explained
-
-[tip](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim)
-For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
-Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
-vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
-
-delete from cursor to end of file: 'dG'
- 
-## Snippets for daily work
-
-Sleepy busybox for debugging
-```
-apiVersion: v1
-kind: Pod
-metadata:
-  name: busybox-sleep
-spec:
-  containers:
-  - name: busybox
-    image: busybox
-    args:
-    - sleep
-    - "1000000"
-```    
 
 ```
-kc explain po; kc explain po.spec; kc explain pod.spec.volumes
 
-# export is apparently gone with 1.19 :-(
-kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
+### Vim yaml tuning explained
 
+* [Source](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim): 
+For YAML files (...) instruct Vim to use 2 spaces for indentation, use spaces instead of tabs and
+* mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
+* delete from cursor to end of file: 'dG'
 
-# create skeleton yaml for deployment
-kc create deployment q1 --image=nginx --dry-run=client -o yaml >q1-tmpl.yaml
+## Setup your own Kuberneter Cluster for training
 
-# (...)
-```
-
-## Exam Prep External Link Collection
-
-* [Practice Exam for Certified Kubernetes Application Developer (CKAD) Certification](https://matthewpalmer.net/kubernetes-app-developer/articles/ckad-practice-exam.html)
-* [List of resources and notes for passing the Certified Kubernetes Application Developer (CKAD) exam.](https://github.com/twajr/ckad-prep-notes)
-* [CKAD Tips](https://pnguyen.io/posts/ckad-tips/) and [CKAD Exercises](https://github.com/dgkanatsios/CKAD-exercises)
-* [The CKAD browser terminal](https://codeburst.io/the-ckad-browser-terminal-10fab2e8122e) and [simulator](https://killer.sh/)
-* [Candidate Handbook (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/04/CKA-CKAD-Candidate-Handbook-v1.18-March-2019.pdf)
-* [Important tips (official)](https://training.linuxfoundation.org/wp-content/uploads/2019/05/Important-Tips-CKA-CKAD-4.30.19.pdf)
-* [Official Exam Resources](https://www.cncf.io/certification/ckad/) especially [curriculum](https://github.com/cncf/curriculum), [exam tips](https://training.linuxfoundation.org/wp-content/uploads/2020/01/Important-Tips-CKA-CKAD-01.28.2020.pdf) and [faq](https://training.linuxfoundation.org/wp-content/uploads/2020/01/CKA-CKAD-FAQ-01.28.2020.pdf)
-* [official kubectl cheatsheet](https://kubernetes.io/de/docs/reference/kubectl/cheatsheet/)
-
-# Automated Kubernetes Cluster Setup
-
-## System requirements
+### System requirements
 
 * Deployment environment must have Ansible `2.4.0+` (`pip install --user ansible`)
 * Master and nodes must have passwordless SSH access. For ssh login you can easily create a keypair and add the public key to remote `~/.ssh/authorized_keys`.
@@ -111,7 +83,7 @@ Host *.server.com
   
 * Since ansible needs to execute some commands with elevated privileges, you may also have to use Ansible's `--ask-become-pass` option or store it in `hosts.ini` (not recommended) 
   
-## Customization
+### Cluster Customization
 
 Add the system information gathered above into a file called `hosts.ini`, you can use `hosts.ini.tmpl` as a template and just adapt hostnames and ssh config
 
@@ -177,7 +149,7 @@ NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          13s
 ```
 
-## Resetting the environment
+### Resetting the environment
 
 Finally, reset all kubeadm installed state using `reset-site.yaml` playbook:
 
@@ -185,7 +157,7 @@ Finally, reset all kubeadm installed state using `reset-site.yaml` playbook:
 $ ansible-playbook reset-site.yaml
 ```
 
-# Additional features
+## Additional features
 These are features that you could want to install to make your life easier.
 
 Enable/disable these features in `group_vars/all.yml` (all disabled by default):
@@ -195,5 +167,5 @@ additional_features:
   healthcheck: false
 ```
 
-## Healthcheck
+### Healthcheck
 This will install k8s-healthcheck (https://github.com/emrekenci/k8s-healthcheck), a small application to report cluster status.
