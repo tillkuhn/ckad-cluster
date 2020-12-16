@@ -19,19 +19,18 @@ The cluster setup playbook has been tested successfully with the following confi
 # useful aliases
 alias kc=kubectl
 alias kn='kubectl config set-context --current --namespace '
-alias ke="kubectl explain --recursive"
 alias pods="kubectl get pods"
-alias apply="kubectl apply -f"
+alias ke="kubectl explain --recursive"
 
-export dry="--dry-run=client -o yaml" # for kubectl quick yaml export append `$dry`
-export force="--force --grace-period=0" # to speed up kubectl delete append `$force`
+export dry="--dry-run=client -o yaml" # for kubectl run quick yaml export
+export force="--force --grace-period=0" # to speed up kubectl delete xy
 
 # auto complete
 source <(kubectl completion bash)
 complete -F __start_kubectl kc # enable also for kc alias
 
 # tune vim tabstop, softtabstop, shiftwdith and tabs=>spaces
-echo "set nu ts=2 sts=2 sw=2 et" > ~/.vimrc && . ~/.vimrc
+echo "set ts=2 sts=2 sw=2 et" > ~/.vimrc && . ~/.vimrc
 # extended version below
 ```
 ```
@@ -45,11 +44,7 @@ EOF
 [tip](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim)
 For YAML file it instructs Vim to use 2 spaces for indentation, Use spaces instead of tabs and
 Skip re-indenting lines after inserting a comment character (#) at the beginning of a line, or a colon.
-vim mark lines: `Esc+V` (then arrow keys), 
-
-Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
-
-Indent indent `>` (shift-<), unindent `<`
+vim mark lines: `Esc+V` (then arrow keys), Copy marked lines: `y`, cut: `d`, Paste: `p` or `P`
 
 delete from cursor to end of file: 'dG'
  
@@ -69,6 +64,19 @@ spec:
     - sleep
     - "1000000"
 ```    
+
+```
+kc explain po; kc explain po.spec; kc explain pod.spec.volumes
+
+# export is apparently gone with 1.19 :-(
+kubectl get pod coredns-42 -n kube-system -o yaml --export >backup.yaml
+
+
+# create skeleton yaml for deployment
+kc create deployment q1 --image=nginx --dry-run=client -o yaml >q1-tmpl.yaml
+
+# (...)
+```
 
 ## Exam Prep External Link Collection
 
