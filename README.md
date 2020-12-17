@@ -2,47 +2,43 @@
 
 ![](https://upload.wikimedia.org/wikipedia/commons/6/67/Kubernetes_logo.svg)
 
-## About this repo
-This repo started as a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) and spins up a Kubernetes cluster using Ansible with `kubeadm`. 
+## Useful curated resources to prepare for CKAD
 
-My primary goal was to use the resulting cluster to prepare for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to play around with.
+### Online Courses
+* [Udemy CKAD Course - Learn concepts and practice for the Kubernetes Certification with hands-on labs right in your browser - DevOps - CKAD
+  (really good and up2date as of 2020)](https://www.udemy.com/course/certified-kubernetes-application-developer/)
+* [LinuxAcademy CKAD Course - with free "personal" instances, also very comprehensive, but at least some labs used outdated Kubernetes version as of 2020](https://linuxacademy.com/cp/modules/view/id/305)
+* [CKAD @ katacode - useful for practicing, integrated in Undemy course ](https://www.katacoda.com/fabito/scenarios/ckad)
 
-The setup playbook has been tested successfully with the following configuration:
-
-* [Kubernetes 1.19](https://kubernetes.io/docs/setup/release/notes/#v1-19-0) 
-* [Docker (docker-ce) 18.06](https://docs.docker.com/engine/release-notes/)
-* [Calico Networking](https://www.projectcalico.org/) intead of flannel 
-* Two [Ubuntu 18.04 LTS](https://ubuntu.com/download/server) small sized machines (2 vCPU, 2 GiB RAM), one acting as master and one as worker node
-
- I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure. Remember you need to perform some intial ssh setup before running the playbook, see *System requirements* below
-
-## Useful resources to prepare for the CKAD exam
-
-### Curated Links (in no particular oder)
-* [Udemy CKAD Course](https://www.udemy.com/course/certified-kubernetes-application-developer/)
-* [LinuxAcademy CKAD Course](https://linuxacademy.com/cp/modules/view/id/305)
+### Offical Exam Resources  
 * [Cloud Native Foundation CKAD | About the program Overview](https://www.cncf.io/certification/ckad/)
 * [Linux Foundation FAQ: CKA and CKAD &amp; CKS (Official)](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks)
 * [Linux Foundation CKAD T&amp;C DOC (official legal stuff)](https://docs.linuxfoundation.org/tc-docs/certification/lf-cert-agreement)
 * [CKA and CKAD - T&amp;C DOC (firewall, sudo etc.)](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad#exam-technical-instructions)
 * [Exam Browser / OS Compatibility Check](https://www.examslocal.com/ScheduleExam/Home/CompatibilityCheck)
+
+### Experiences from other participants
 * [CKAD exp. Cédric Moular (Good), vim tips etc. ](https://dev.to/cedricmoulard/ckad-experience-3k4o)
 * [twajr/ckad-prep-notes: Huge repo with List of resources and notes for passing the exam](https://github.com/twajr/ckad-prep-notes)
-* [CKAD Exercises : dgkanatsios (Good) repo](https://github.com/dgkanatsios/CKAD-exercises)
+* [CKAD Exercises : dgkanatsios, yeat another good collections of info and exercises](https://github.com/dgkanatsios/CKAD-exercises)
 * [lucassha/CKAD-resources Github Repo: Study materials for k8s CKAD](https://github.com/lucassha/CKAD-resources)
-* [The CKAD browser terminal. This is a general overview of what… | by Kim Wuestkamp | codeburst](https://codeburst.io/the-ckad-browser-terminal-10fab2e8122e)
+* [The CKAD browser terminal. Easy Preparation Read | by Kim Wuestkamp | codeburst](https://codeburst.io/the-ckad-browser-terminal-10fab2e8122e)
 * [Some CKAD exam experience | LinkedIn](https://www.linkedin.com/pulse/my-ckad-exam-experience-atharva-chauthaiwale/)
+
+### Watch ...
 * [Video: How to CRUSH the CKAD Exam (10min, easy to watch)](https://www.youtube.com/watch?v=5cgpFWVD8ds)
 * [Video: Muralidaran Tips on preparing for CKAD - YouTube 25min, some good hints](https://www.youtube.com/watch?v=rnemKrveZks&feature=youtu.be)
 
 ### Snippets to speed your cluster interaction (très impoortante)
 
+Time managament is essential, so these may help to save some seconds here and there ...
+
 ```
 # useful aliases
-alias kc=kubectl
-alias kn='kubectl config set-context --current --namespace '
-alias pods="kubectl get pods"
-alias ke="kubectl explain --recursive"
+alias kc=kubectl # or whaever you prefer, but make it short
+alias kns='kubectl config set-context --current --namespace '
+alias pods="kubectl get pods" # needed it all the time
+alias ke="kubectl explain --recursive" # didn't know that one before
 
 export dry="--dry-run=client -o yaml" # for kubectl run quick yaml export
 export force="--force --grace-period=0" # to speed up kubectl delete xy
@@ -57,7 +53,7 @@ echo "set ts=2 sts=2 sw=2 et" > ~/.vimrc
 
 ### Curated kubernetes.io deeplinks
 
-Since you are allowed to use the offical kubernetes.io documentation it can pay off to bookmark
+Since you are allowed to use the offical kubernetes.io documentation, it can pay off to bookmark
 a couple of useful locations for code cut'n'paste, as not to waste time to search for them during the exam under time pressure.
 
 * [kubectl Cheat Sheet - Kubernetes](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
@@ -91,8 +87,9 @@ a couple of useful locations for code cut'n'paste, as not to waste time to searc
 
 ### Vim yaml tuning explained
 
-You need to be fluent with either nano or vim, I choose vim. Since you're be mostly editiing yaml, it makes sense
-to optimize the settings to deal with yaml files, especially when it comes to indentation
+You need to be fluent with either nano or vim, I picked vim. Since you'll be mostly editing yaml, it makes sense
+to optimize the settings to deal with yaml files, especially when it comes to indentation. Don't even bother to working 
+with .yaml extensions, save time and keep filenames short but use quesiton numbers if you come back later. 
 
 * `echo "set ts=2 sts=2 sw=2 et" > ~/.vimrc`
 * [Source](https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim):
@@ -101,6 +98,20 @@ to optimize the settings to deal with yaml files, especially when it comes to in
 * Delete from cursor to end of file: 'dG'
 
 ## Setup your own Cluster for Training using this repo
+
+### Background
+This repo started as a fork of the [kubeadm-ansible](https://github.com/kairen/kubeadm-ansible) and spins up a Kubernetes cluster using Ansible with `kubeadm`.
+
+My primary goal was to use the resulting cluster to prepare for the [Certified Kubernetes Application Developer (CKAD) Program](https://www.cncf.io/certification/ckad/) to have an easy-to-(re)create environment to play around with.
+
+The setup playbook has been tested successfully with the following configuration:
+
+* [Kubernetes 1.19](https://kubernetes.io/docs/setup/release/notes/#v1-19-0)
+* [Docker (docker-ce) 18.06](https://docs.docker.com/engine/release-notes/)
+* [Calico Networking](https://www.projectcalico.org/) intead of flannel
+* Two [Ubuntu 18.04 LTS](https://ubuntu.com/download/server) small sized machines (2 vCPU, 2 GiB RAM), one acting as master and one as worker node
+
+I've used servers managed by [Linux Academy Cloud Playground](https://linuxacademy.com/) as they also provide a dedicated CKAD Training, but could use any cloud provider or on premise infrastructure. Remember you need to perform some intial ssh setup before running the playbook, see *System requirements* below
 
 ### System requirements
 
